@@ -8,7 +8,7 @@ notify_url(){
         -H "Content-Type: application/json" \
         -d "{
                 \"time\": \"$ts\",
-                \"name\": \"$WEBHOOK_NAME\",
+                \"name\": \"$HOOK_NAME\",
                 \"action\": \"$2\"
         }"
 }

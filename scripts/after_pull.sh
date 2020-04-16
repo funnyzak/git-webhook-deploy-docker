@@ -21,8 +21,8 @@ else
     npm run build
 fi
 
-# move output
-echo "moveing output..."
+# move target
+echo "moving to target dir..."
 if [ -z "$OUTPUT_DIRECTORY" ]; then
     rsync -q -r --delete ./ /app/target/
 else

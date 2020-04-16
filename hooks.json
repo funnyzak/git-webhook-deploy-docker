@@ -1,0 +1,7 @@
+[
+  {
+    "id": "git-webhook",
+    "execute-command": "/app/hook/hook.sh",
+    "command-working-directory": "/app/code"
+  }
+]

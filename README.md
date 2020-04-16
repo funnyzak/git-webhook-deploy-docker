@@ -29,7 +29,7 @@ The following flags are a list of all the currently supported options that can b
 * **GIT_EMAIL** : Set your email for code pushing (required for git to work)
 * **GIT_NAME** : Set your name for code pushing (required for git to work)
 * **INSTALL_DEPS_COMMAND**: The command your frontend framework provides for install your code depends.  default is: `npm install`
-* **BUILD_COMMAND**: The command your frontend framework provides for compiling your code. If your frontend does not require a build, leave this field empty. eg: `npm run build`、`yarn build`
+* **BUILD_COMMAND**: The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build`
 * **OUTPUT_DIRECTORY**: The directory in which your compiled frontend will be located. default is "."
 * **WEBHOOK_LIST** : Optional. Notify link array that send notifications when pull code, each link is separated by **|**
 * **HOOK_NAME** : Optional. When setting **WEBHOOK_LIST**, it is best to set a HOOK name

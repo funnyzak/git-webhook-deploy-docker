@@ -22,6 +22,7 @@ COPY scripts/after_pull.sh /custom_scripts/after_pull/run.sh
 
 RUN chmod +x -R /custom_scripts
 
+# create final target folder
 RUN mkdir -p /app/target/
 
 # Copy Webhook config

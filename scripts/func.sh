@@ -7,10 +7,12 @@ notify_url(){
     curl "$1" \
         -H "Content-Type: application/json" \
         -d "{
-                \"time\": \"$ts\",
-                \"name\": \"$HOOK_NAME\",
-                \"action\": \"$2\"
+                \"_time\": \"$ts\",
+                \"_name\": \"$HOOK_NAME\",
+                \"_action\": \"$2\"
         }"
+    curl -G "$1" \
+        -d "_time=$ts&_name=$HOOK_NAME&_action=$2"
 }
 
 # $1 = action

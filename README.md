@@ -1,6 +1,6 @@
 # Git Webhook Node Build And Notify Docker
 
-Pulling the source code is triggered via WebHook, then build the source code. And send notifications before and after the Pull Code.
+Pull code is triggered via WebHook, then build the code. And send notifications.
 
 [![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-node-build.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-build/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-node-build.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-build/)

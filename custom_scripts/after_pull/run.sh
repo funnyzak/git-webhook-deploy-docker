@@ -1,7 +1,8 @@
 #!/bin/sh
 
-source /custom_scripts/potato/func.sh
+source /custom_scripts/potato/utils-git-webhook-node.sh
 
+# notify send
 do_notify "after pull"
 
 # install deps
@@ -29,4 +30,15 @@ else
     eval "rsync -q -r --delete $OUTPUT_DIRECTORY /app/target/"
 fi
 
+# calc package elasped time
+elasped_package_time "end"
+
+# after package command
+echo "after package command do..." 
+eval "$AFTER_PACKAGE_COMMANDS"
+
+echo "git pull code after shell do..." 
+source /usr/bin/run_scripts_after_package.sh
+
+# notify send
 do_notify "after build"

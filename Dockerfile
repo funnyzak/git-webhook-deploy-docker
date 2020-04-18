@@ -13,14 +13,32 @@ LABEL org.label-schema.vendor="potato<silenceace@gmail.com>" \
     org.label-schema.vcs-ref="${VCS_REF}" \
     org.label-schema.vcs-url="https://github.com/funnyzak/git-webhook-node-build-docker" 
 
+# Install nginx
+RUN apk update && apk upgrade && \
+    apk add --no-cache nginx && \
+    rm  -rf /tmp/* /var/cache/apk/*
 
-# Copy Scripts
-COPY scripts/func.sh /custom_scripts/potato/func.sh
-COPY scripts/on_startup.sh /custom_scripts/on_startup/1.sh
-COPY scripts/before_pull.sh /custom_scripts/before_pull/1.sh
-COPY scripts/after_pull.sh /custom_scripts/after_pull/1.sh
+# fixed nginx: [emerg] open() "/run/nginx/nginx.pid" 
+# https://github.com/gliderlabs/docker-alpine/issues/185
+RUN mkdir -p /run/nginx
 
+# Copy after package files run script
+COPY scripts/run_scripts_after_package.sh /usr/bin/run_scripts_after_package.sh
+
+# Copy Custom Scripts
+COPY custom_scripts/utils.sh /custom_scripts/potato/utils-git-webhook-node.sh
+COPY custom_scripts/on_startup/run.sh /custom_scripts/on_startup/1.sh
+COPY custom_scripts/before_pull/run.sh /custom_scripts/before_pull/1.sh
+COPY custom_scripts/after_pull/run.sh /custom_scripts/after_pull/1.sh
+
+# add permission for  after package files run script
+RUN chmod +x /usr/bin/run_scripts_after_package.sh
+
+# add permission for custom script
 RUN chmod +x -R /custom_scripts
+
+# copy nginx conf
+COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # create final target folder
 RUN mkdir -p /app/target/
@@ -28,7 +46,8 @@ RUN mkdir -p /app/target/
 # Copy Webhook config
 COPY hooks.json /app/hook/hooks.json
 
+# Source Folder
 WORKDIR /app/code
 
-# Expose Webhook port
-EXPOSE 9000
+# Expose port
+EXPOSE 80

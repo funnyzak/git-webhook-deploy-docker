@@ -15,7 +15,9 @@ Download size of this image is:
 
 Docker Pull Command: `docker pull funnyzak/git-webhook-node-build`
 
-Webhook Url: [http://hostname:9000/hooks/git-webhook](#)
+Vist Url: [http://hostname:80/](#)
+
+Webhook Url: [http://hostname:80/hooks/git-webhook](#)
 
 ---
 
@@ -31,6 +33,7 @@ The following flags are a list of all the currently supported options that can b
 * **INSTALL_DEPS_COMMAND**: The command your frontend framework provides for install your code depends.  default is: `npm install`
 * **BUILD_COMMAND**: The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build`
 * **OUTPUT_DIRECTORY**: The directory in which your compiled frontend will be located. default is "."
+* **AFTER_PACKAGE_COMMANDS** : Add any commands that will be run after package.
 * **WEBHOOK_LIST** : Optional. Notify link array that send notifications when pull code, each link is separated by **|**
 * **HOOK_NAME** : Optional. When setting **WEBHOOK_LIST**, it is best to set a HOOK name
 
@@ -38,13 +41,30 @@ The following flags are a list of all the currently supported options that can b
 
 ## Volume Configuration
 
-* **/app/target** :  builded code files will move to this folder. 
+* **/custom_scripts/after_package** :  which the scripts are executed at after package.
+* **/app/target** :  builded code files will move to this folder.
 * **/app/code** : git source code dir. docker work dir.
 * **/root/.ssh** :  If it is a private repository, please set ssh key
 
 ### ssh-keygen
 
 `ssh-keygen -t rsa -b 4096 -C "youremail@gmail.com" -N "" -f ./id_rsa`
+
+---
+
+## Display Package Elapsed Time
+
+show package elapsed second.
+
+```sh
+docker exec servername cat /tmp/ELAPSED_TIME
+```
+
+show package elapsed time label.
+
+```sh
+docker exec servername cat /tmp/ELAPSED_TIME_LABEL
+```
 
 ---
 
@@ -74,43 +94,21 @@ services:
       - INSTALL_DEPS_COMMAND=npm install
       - BUILD_COMMAND=npm run build
       - OUTPUT_DIRECTORY=.vuepress/dist/
+      - AFTER_PACKAGE_COMMANDS=echo "hello world"
       - WEBHOOK_LIST=http://link1.com/hook|http://link2.com/hook
       - HOOK_NAME=vuepress_app
     restart: on-failure
     ports:
-      - 1007:9000
+      - 168:80
     volumes:
       - ./target:/app/target
       - ./code:/app/code
       - ./ssh:/root/.ssh
+      - ./after_package:/custom_scripts/after_package
 
  ```
 
 ---
 
-## Nginx
-
- ```nginx
-server {
-    listen       80;
-    server_name  yourdomain.com;
-
-    underscores_in_headers on;
-    ssl off;
-
-    location / {
-        root   /mnt/app/hexo/output;
-        index  index.html index.htm;
-    }
-
-    location /webhook {
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-Ip $remote_addr;
-        proxy_set_header X-Forwarded-For $remote_addr;
-        proxy_pass http://127.0.0.1:9000/hooks/git-webhook;
-    }
-}
-
- ```
 
 Please configure according to the actual deployment path and port.

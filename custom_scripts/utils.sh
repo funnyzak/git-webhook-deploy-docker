@@ -2,7 +2,7 @@
 
 # send notification to url 
 function notify_url_single(){
-    ACTION_NAME = $1
+    ACTION_NAME=$1
     NOTIFY_URL=$2
 
     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sending...\n"
@@ -24,7 +24,7 @@ function notify_url_single(){
 
 # send notification to dingtalk
 function dingtalk_notify_single() {
-    ACTION_NAME = $1
+    ACTION_NAME=$1
     TOKEN=$2
 
     echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sending...\n"
@@ -45,7 +45,7 @@ function dingtalk_notify_single() {
 }
 
 function ifttt_single() {
-    ACTION_NAME = $1
+    ACTION_NAME=$1
     NOTIFY_URL=$2
     
      echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended\n"

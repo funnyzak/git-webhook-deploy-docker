@@ -37,6 +37,7 @@ The following flags are a list of all the currently supported options that can b
 * **AFTER_PULL_COMMANDS** : Add any commands that will be run after pull
 * **BEFORE_PULL_COMMANDS** : Add any commands that will be run before pull
 * **AFTER_PACKAGE_COMMANDS** : Add any commands that will be run after package.
+* **NOTIFY_ACTION_LABEL**: notify action name define. default : `StartUp|BeforePull|AfterPull|AfterPackage`
 * **NOTIFY_URL_LIST** : Optional. Notify link array , each separated by **|**
 * **IFTTT_HOOK_URL_LIST** : Optional. ifttt webhook url array , each separated by **|**
 * **DINGTALK_TOKEN_LIST**: Optional. DingTalk Bot TokenList, each separated by **|**
@@ -104,6 +105,7 @@ services:
       - OUTPUT_DIRECTORY=.vuepress/dist/
       - AFTER_PACKAGE_COMMANDS=echo "elapsed time: $(cat /tmp/ELAPSED_TIME_LABEL)"
       - APP_NAME=vuepress_app
+      - NOTIFY_ACTION_LABEL=已启动|准备拉取代码|代码已拉取|打包部署完成
       - NOTIFY_URL_LIST=http://link1.com/hook|http://link2.com/hook
     restart: on-failure
     ports:

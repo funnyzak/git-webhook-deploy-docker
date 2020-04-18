@@ -2,7 +2,7 @@
 
 # send notification to url 
 function notify_url_single(){
-    ACTION_NAME=$1
+    ACTION_NAME=`parse_action_label $1`
     NOTIFY_URL=$2
 
     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sending...\n"
@@ -24,7 +24,7 @@ function notify_url_single(){
 
 # send notification to dingtalk
 function dingtalk_notify_single() {
-    ACTION_NAME=$1
+    ACTION_NAME=`parse_action_label $1`
     TOKEN=$2
 
     echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sending...\n"
@@ -45,7 +45,7 @@ function dingtalk_notify_single() {
 }
 
 function ifttt_single() {
-    ACTION_NAME=$1
+    ACTION_NAME=`parse_action_label $1`
     NOTIFY_URL=$2
     
      echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended\n"
@@ -58,11 +58,36 @@ function ifttt_single() {
 # $3 action
 function notify_run(){
     if [ -n "$1" ]; then
-        for item in ${1//|/}
+        for item in ${1//|/ }
         do
             eval "$2 $3 ${item}"
         done
     fi
+}
+
+# AfterPackage
+# AfterPull
+# BeforePull
+# StartUp
+# 已启动|准备拉取代码|代码已拉取|打包部署完成
+
+ACTION_ARRAY=(StartUp BeforePull AfterPull AfterPackage)
+function parse_action_label(){
+    if [ -n "$NOTIFY_ACTION_LABEL" ]; then
+        label_arr=(${NOTIFY_ACTION_LABEL//|/ })
+        action_idx=`parse_action_index $1`
+        echo "${label_arr[action_idx]}"
+    else
+        return $1
+    fi
+}
+
+function parse_action_index(){
+    for i in "${!ACTION_ARRAY[@]}"; do
+        if [[ "${ACTION_ARRAY[$i]}" = "${1}" ]]; then
+            echo "${i}";
+        fi
+    done
 }
 
 # notify all notify service

@@ -94,7 +94,7 @@ services:
       - INSTALL_DEPS_COMMAND=npm install
       - BUILD_COMMAND=npm run build
       - OUTPUT_DIRECTORY=.vuepress/dist/
-      - AFTER_PACKAGE_COMMANDS=echo "hello world"
+      - AFTER_PACKAGE_COMMANDS=echo "elapsed time: $(cat /tmp/ELAPSED_TIME_LABEL)"
       - WEBHOOK_LIST=http://link1.com/hook|http://link2.com/hook
       - HOOK_NAME=vuepress_app
     restart: on-failure

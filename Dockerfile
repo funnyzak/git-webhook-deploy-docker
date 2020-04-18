@@ -16,9 +16,9 @@ LABEL org.label-schema.vendor="potato<silenceace@gmail.com>" \
 
 # Copy Scripts
 COPY scripts/func.sh /custom_scripts/func.sh
-COPY scripts/on_startup.sh /custom_scripts/on_startup/run.sh
-COPY scripts/before_pull.sh /custom_scripts/before_pull/run.sh
-COPY scripts/after_pull.sh /custom_scripts/after_pull/run.sh
+COPY scripts/on_startup.sh /custom_scripts/on_startup/aaa.sh
+COPY scripts/before_pull.sh /custom_scripts/before_pull/aaa.sh
+COPY scripts/after_pull.sh /custom_scripts/after_pull/aaa.sh
 
 RUN chmod +x -R /custom_scripts
 

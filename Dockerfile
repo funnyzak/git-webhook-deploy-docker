@@ -50,4 +50,4 @@ COPY hooks.json /app/hook/hooks.json
 WORKDIR /app/code
 
 # Expose port
-EXPOSE 80
+EXPOSE 80 9000

@@ -15,7 +15,7 @@ Download size of this image is:
 
 Docker Pull Command: `docker pull funnyzak/git-webhook-node-build`
 
-Vist Url: [http://hostname:80/](#)
+Visit Url: [http://hostname:80/](#)
 
 Webhook Url: [http://hostname:80/hooks/git-webhook](#)
 

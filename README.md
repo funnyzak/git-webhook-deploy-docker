@@ -39,7 +39,7 @@ The following flags are a list of all the currently supported options that can b
 ## Volume Configuration
 
 * **/app/target** :  builded code files will move to this folder. 
-* **/app/code** : source code dir. Will automatically pull the code.
+* **/app/code** : git source code dir. docker work dir.
 * **/root/.ssh** :  If it is a private repository, please set ssh key
 
 ### ssh-keygen

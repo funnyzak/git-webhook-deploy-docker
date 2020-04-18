@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/ash
 
 source /custom_scripts/potato/utils-git-webhook-node.sh
 

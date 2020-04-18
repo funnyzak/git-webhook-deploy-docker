@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/ash
 
 # send notification to url 
 function notify_url_single(){

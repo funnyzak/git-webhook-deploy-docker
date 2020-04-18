@@ -33,8 +33,8 @@ function dingtalk_notify_single() {
         -d '{
         "msgtype": "markdown",
         "markdown": {
-            "title":"'"$APP_NAME"' $ACTION_NAME.",
-            "text": "#### 【'"$APP_NAME"'】 $ACTION_NAME. \n> Branch：'"$(parse_git_branch)"' \n\n> Commit Msg：'"$(parse_git_message)"'\n\n> Commit ID: '"$(parse_git_hash)"'\n"
+            "title":"'"$APP_NAME"' '"$ACTION_NAME"'.",
+            "text": "#### 【'"$APP_NAME"'】 '"$ACTION_NAME"'. \n> Branch：'"$(parse_git_branch)"' \n\n> Commit Msg：'"$(parse_git_message)"'\n\n> Commit ID: '"$(parse_git_hash)"'\n"
         },
             "at": {
             "isAtAll": true

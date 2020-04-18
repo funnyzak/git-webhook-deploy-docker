@@ -33,6 +33,9 @@ The following flags are a list of all the currently supported options that can b
 * **INSTALL_DEPS_COMMAND**: The command your frontend framework provides for install your code depends.  default is: `npm install`
 * **BUILD_COMMAND**: The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build`
 * **OUTPUT_DIRECTORY**: The directory in which your compiled frontend will be located. default is "."
+* **STARTUP_COMMANDS** : Add any commands that will be run at the end of the start.sh script
+* **AFTER_PULL_COMMANDS** : Add any commands that will be run after pull
+* **BEFORE_PULL_COMMANDS** : Add any commands that will be run before pull
 * **AFTER_PACKAGE_COMMANDS** : Add any commands that will be run after package.
 * **NOTIFY_URL_LIST** : Optional. Notify link array , each separated by **|**
 * **IFTTT_HOOK_URL_LIST** : Optional. ifttt webhook url array , each separated by **|**
@@ -43,10 +46,13 @@ The following flags are a list of all the currently supported options that can b
 
 ## Volume Configuration
 
-* **/custom_scripts/after_package** :  which the scripts are executed at after package.
 * **/app/target** :  builded code files will move to this folder.
 * **/app/code** : git source code dir. docker work dir.
 * **/root/.ssh** :  If it is a private repository, please set ssh key
+* **/custom_scripts/on_startup** :  which the scripts are executed at startup, traversing all the scripts and executing them sequentially
+* **/custom_scripts/before_pull** :  which the scripts are executed at before pull
+* **/custom_scripts/after_pull** :  which the scripts are executed at after pull
+* **/custom_scripts/after_package** :  which the scripts are executed at after package.
 
 ### ssh-keygen
 
@@ -111,6 +117,5 @@ services:
  ```
 
 ---
-
 
 Please configure according to the actual deployment path and port.

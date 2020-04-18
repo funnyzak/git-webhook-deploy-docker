@@ -3,7 +3,7 @@
 source /custom_scripts/potato/utils-git-webhook-node.sh
 
 # notify send
-do_notify "after pull"
+notify_all "AfterPull"
 
 # install deps
 echo "installing deps..."
@@ -37,8 +37,5 @@ elasped_package_time "end"
 echo "after package command do..." 
 eval "$AFTER_PACKAGE_COMMANDS"
 
-echo "git pull code after shell do..." 
+echo "after package shell do..." 
 source /usr/bin/run_scripts_after_package.sh
-
-# notify send
-do_notify "after build"

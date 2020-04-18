@@ -1,38 +1,81 @@
 #!/bin/sh
 
-notify_url(){
-    # get current timestamp
-    ts=$(date +%s)
-    
-    curl "$1" \
+# send notification to url 
+function notify_url_single(){
+    ACTION_NAME = $1
+    NOTIFY_URL=$2
+
+    echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sending...\n"
+
+    # current timestamp
+    CURRENT_TS=$(date +%s)
+    curl "$NOTIFY_URL" \
         -H "Content-Type: application/json" \
         -d "{
-                \"_time\": \"$ts\",
-                \"_name\": \"$HOOK_NAME\",
-                \"_action\": \"$2\"
+                \"_time\": \"$CURRENT_TS\",
+                \"_name\": \"$APP_NAME\",
+                \"_action\": \"$ACTION_NAME\"
         }"
-    curl -G "$1" \
-        -d "_time=$ts&_name=$HOOK_NAME&_action=$2"
+    curl -G "$NOTIFY_URL" \
+        -d "_time=$CURRENT_TS&_name=$APP_NAME&_action=$ACTION_NAME"
+
+    echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sended\n"
 }
 
-# $1 = action
-do_notify(){
-    if [ -n "$WEBHOOK_LIST" ]; then
-        echo "$1 will notify url list >>> $WEBHOOK_LIST"
-        url_array=${WEBHOOK_LIST//|/}
+# send notification to dingtalk
+function dingtalk_notify_single() {
+    ACTION_NAME = $1
+    TOKEN=$2
 
-        for url_item in $url_array
+    echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sending...\n"
+    curl "https://oapi.dingtalk.com/robot/send?access_token=${TOKEN}" \
+        -H "Content-Type: application/json" \
+        -d '{
+        "msgtype": "markdown",
+        "markdown": {
+            "title":"'"$APP_NAME"' $ACTION_NAME.",
+            "text": "#### 【'"$APP_NAME"'】 $ACTION_NAME. \n> Branch：'"$(parse_git_branch)"' \n\n> Commit Msg：'"$(parse_git_message)"'\n\n> Commit ID: '"$(parse_git_hash)"'\n"
+        },
+            "at": {
+            "isAtAll": true
+            }
+        }'
+
+    echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sended.\n"
+}
+
+function ifttt_single() {
+    ACTION_NAME = $1
+    NOTIFY_URL=$2
+    
+     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended\n"
+    curl -X POST -H "Content-Type: application/json" -d "{\"value1\":\"$APP_NAME\",\"value2\":\"$ACTION_NAME\",\"value3\":\"$(date)\"}" "$NOTIFY_URL"
+     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended\n"
+}
+
+# $1 url or token list
+# $2 func name
+# $3 action
+function notify_run(){
+    if [ -n "$1" ]; then
+        for item in ${1//|/}
         do
-            echo "Notify to > ${url_item}"
-            notify_url ${url_item} "$1"
+            eval "$2 $3 ${item}"
         done
     fi
 }
 
-# if $1 has value then cacle package time 
-# start:elasped_package_time 
-# end: elasped_package_time "end"
-elasped_package_time(){
+# notify all notify service
+function notify_all(){
+    notify_run $NOTIFY_URL_LIST "notify_url_single" $1
+    notify_run $IFTTT_HOOK_URL_LIST "ifttt_single" $1
+    notify_run $DINGTALK_TOKEN_LIST "dingtalk_notify_single" $1
+}
+
+# record end time as long as "$1" is present
+# record start:elasped_package_time 
+# record end: elasped_package_time "end"
+function elasped_package_time(){
     if [ -n "$1" ]; then
         # 计算部署耗时
         PULL_START_TS=`cat /tmp/PULL_START_TS`
@@ -40,6 +83,7 @@ elasped_package_time(){
         ELAPSED_TIME_M=`expr $ELAPSED_TIME / 60`
         ELAPSED_TIME_S=`expr $ELAPSED_TIME % 60`
         ELAPSED_TIME_LABEL="${ELAPSED_TIME_M}分${ELAPSED_TIME_S}秒"
+
         if [ $ELAPSED_TIME -ge 60 ]
         then
             ELAPSED_TIME_LABEL="${ELAPSED_TIME_M}分${ELAPSED_TIME_S}秒"
@@ -53,9 +97,6 @@ elasped_package_time(){
         echo $(date +%s) > /tmp/PULL_START_TS
     fi
 }
-
-
-
 
 
 # checks if branch has something pending

@@ -2,7 +2,7 @@
 
 source /custom_scripts/potato/utils-git-webhook-node.sh
 
-do_notify "before pull"
+notify_all "BeforePull"
 
-# pull start timestamp
+# record pull start timestamp
 elasped_package_time

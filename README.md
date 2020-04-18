@@ -34,8 +34,10 @@ The following flags are a list of all the currently supported options that can b
 * **BUILD_COMMAND**: The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build`
 * **OUTPUT_DIRECTORY**: The directory in which your compiled frontend will be located. default is "."
 * **AFTER_PACKAGE_COMMANDS** : Add any commands that will be run after package.
-* **WEBHOOK_LIST** : Optional. Notify link array that send notifications when pull code, each link is separated by **|**
-* **HOOK_NAME** : Optional. When setting **WEBHOOK_LIST**, it is best to set a HOOK name
+* **NOTIFY_URL_LIST** : Optional. Notify link array , each separated by **|**
+* **IFTTT_HOOK_URL_LIST** : Optional. ifttt webhook url array , each separated by **|**
+* **DINGTALK_TOKEN_LIST**: Optional. DingTalk Bot TokenList, each separated by **|**
+* **APP_NAME** : Optional. When setting notify, it is best to set.
 
 ---
 
@@ -95,8 +97,8 @@ services:
       - BUILD_COMMAND=npm run build
       - OUTPUT_DIRECTORY=.vuepress/dist/
       - AFTER_PACKAGE_COMMANDS=echo "elapsed time: $(cat /tmp/ELAPSED_TIME_LABEL)"
-      - WEBHOOK_LIST=http://link1.com/hook|http://link2.com/hook
-      - HOOK_NAME=vuepress_app
+      - APP_NAME=vuepress_app
+      - NOTIFY_URL_LIST=http://link1.com/hook|http://link2.com/hook
     restart: on-failure
     ports:
       - 168:80

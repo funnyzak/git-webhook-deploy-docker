@@ -57,12 +57,13 @@ function ifttt_single() {
 function parse_action_label(){
     if [ -n "$NOTIFY_ACTION_LABEL" ]; then
         label_arr=(${NOTIFY_ACTION_LABEL//|/ })
-        action_idx=(parse_action_index $1)
-        echo "${label_arr[action_idx]}"
+        action_idx=`parse_action_index $1`
+        echo ${label_arr[action_idx]}
     else
         echo $1
     fi
 }
+
 
 ACTION_ARRAY=(StartUp BeforePull AfterPull AfterPackage)
 function parse_action_index(){

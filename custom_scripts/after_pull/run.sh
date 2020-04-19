@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eo pipefail
+set -e
 
 source /custom_scripts/potato/utils-git-webhook-node.sh
 
@@ -32,10 +32,13 @@ if [ -z "$OUTPUT_DIRECTORY" ]; then
 else
     eval "rsync -q -r --delete $OUTPUT_DIRECTORY /app/target/"
 fi
+echo "moving to target dir done"
+
+
+set +e
 
 # calc package elasped time
 elasped_package_time "end"
-
 # record current git commit id
 echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
 

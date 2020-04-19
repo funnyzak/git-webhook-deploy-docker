@@ -17,7 +17,7 @@ Docker Pull Command: `docker pull funnyzak/git-webhook-node-build`
 
 Visit Url: [http://hostname:80/](#)
 
-Webhook Url: [http://hostname:80/hooks/git-webhook](#)
+Webhook Url: [http://hostname:9000/hooks/git-webhook?token=HOOK_TOKEN](#)
 
 ---
 
@@ -28,8 +28,9 @@ The following flags are a list of all the currently supported options that can b
 ### Base
 
 * **USE_HOOK** : The web hook is enabled as long as this is present.
+* **HOOK_TOKEN** : Custom hook security tokens, strings.
 * **GIT_REPO** : URL to the repository containing your source code.
-* **GIT_BRANCH** : Select a branch for clone and auto hook.
+* **GIT_BRANCH** : Select a branch for clone and auto hook match.
 * **GIT_EMAIL** : Set your email for code pushing (required for git to work)
 * **GIT_NAME** : Set your name for code pushing (required for git to work)
 * **INSTALL_DEPS_COMMAND**: The command your frontend framework provides for install your code depends.  default is: `npm install`
@@ -107,6 +108,7 @@ services:
       - TZ=Asia/Shanghai
       - LANG=C.UTF-8
       - USE_HOOK=1
+      - HOOK_TOKEN=hello
       - GIT_REPO=https://github.com/vuejs/vuepress.git
       - GIT_BRANCH=master
       - GIT_EMAIL=abc@gmail.com

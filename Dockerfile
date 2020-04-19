@@ -44,9 +44,6 @@ COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 # create final target folder
 RUN mkdir -p /app/target/
 
-# Copy Webhook config
-COPY hooks.json /app/hook/hooks.json
-
 # Source Folder
 WORKDIR /app/code
 

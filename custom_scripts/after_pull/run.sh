@@ -43,8 +43,11 @@ elasped_package_time "end"
 echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
 
 # after package command
-echo "after package command do..." 
-eval "$AFTER_PACKAGE_COMMANDS"
+if [ -n "$AFTER_PACKAGE_COMMANDS" ]; then
+    echo "after package command do..." 
+    eval "$AFTER_PACKAGE_COMMANDS"
+else
+
 
 echo "after package shell do..." 
 source /usr/bin/run_scripts_after_package.sh

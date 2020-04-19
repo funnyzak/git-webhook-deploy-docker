@@ -6,7 +6,12 @@ function notify_url_single(){
     ACTION_NAME=$1
     NOTIFY_URL=$2
 
-    echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sending...\n"
+    if [ "$1" = "AfterPackage" ]; then
+         elasped_lable="\"_elasped\": \"$(elasped_package_time_label)\","
+         elasped_lable2="&_elasped=$(elasped_package_time_label)"
+    fi
+
+    echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sending..."
 
     # current timestamp
     CURRENT_TS=$(date +%s)
@@ -15,12 +20,13 @@ function notify_url_single(){
         -d "{
                 \"_time\": \"$CURRENT_TS\",
                 \"_name\": \"$APP_NAME\",
+                ${elasped_lable}
                 \"_action\": \"$ACTION_NAME\"
         }"
     curl -G "$NOTIFY_URL" \
-        -d "_time=$CURRENT_TS&_name=$APP_NAME&_action=$ACTION_NAME"
+        -d "_time=$CURRENT_TS$elasped_lable2&_name=$APP_NAME&_action=$ACTION_NAME"
 
-    echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sended\n"
+    echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sended."
 }
 
 # send notification to dingtalk
@@ -28,30 +34,38 @@ function dingtalk_notify_single() {
     ACTION_NAME=`parse_action_label $1`
     TOKEN=$2
 
-    echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sending...\n"
+    if [ "$1" = "AfterPackage" ]; then
+         elasped_lable="Elasped Time: `elasped_package_time_label`"
+    fi
+    
+    echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sending..."
     curl "https://oapi.dingtalk.com/robot/send?access_token=${TOKEN}" \
         -H "Content-Type: application/json" \
         -d '{
         "msgtype": "markdown",
         "markdown": {
             "title":"'"$APP_NAME"' '"$ACTION_NAME"'.",
-            "text": "#### 【'"$APP_NAME"'】 '"$ACTION_NAME"'. \n> Branch：'"$(parse_git_branch)"' \n\n> Commit Msg：'"$(parse_git_message)"'\n\n> Commit ID: '"$(parse_git_hash)"'\n"
+            "text": "#### 【'"$APP_NAME"'】 '"$ACTION_NAME"'. \n> Branch：'"$(parse_git_branch)"' \n\n> Commit Msg：'"$(parse_git_message)"'\n\n> Commit ID: '"$(parse_git_hash)"'\n\n'"${elasped_lable}"'"
         },
             "at": {
             "isAtAll": true
             }
         }'
 
-    echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sended.\n"
+    echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sended."
 }
 
 function ifttt_single() {
     ACTION_NAME=`parse_action_label $1`
     NOTIFY_URL=$2
+
+    if [ "$1" = "AfterPackage" ]; then
+         elasped_lable=`elasped_package_time_label`
+    fi
     
-     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended\n"
-    curl -X POST -H "Content-Type: application/json" -d "{\"value1\":\"$APP_NAME\",\"value2\":\"$ACTION_NAME\",\"value3\":\"$(date)\"}" "$NOTIFY_URL"
-     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended\n"
+     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended."
+    curl -X POST -H "Content-Type: application/json" -d "{\"value1\":\"$APP_NAME\",\"value2\":\"$ACTION_NAME\",\"value3\":\"${elasped_lable}\"}" "$NOTIFY_URL"
+     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended."
 }
 
 function parse_action_label(){
@@ -126,6 +140,10 @@ function elasped_package_time(){
     else
         echo $(date +%s) > /tmp/PULL_START_TS
     fi
+}
+
+function elasped_package_time_label(){
+    echo `cat /tmp/ELAPSED_TIME_LABEL`
 }
 
 

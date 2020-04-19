@@ -1,8 +1,9 @@
-#!/bin/ash
+#!/bin/bash
+
 
 # send notification to url 
 function notify_url_single(){
-    ACTION_NAME=`parse_action_label $1`
+    ACTION_NAME=$1
     NOTIFY_URL=$2
 
     echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】Web Notify Notification Sending...\n"
@@ -53,49 +54,45 @@ function ifttt_single() {
      echo "$APP_NAME $ACTION_NAME. 【$NOTIFY_URL】IFTTT Notify Notification Sended\n"
 }
 
-# $1 url or token list
-# $2 func name
-# $3 action
-function notify_run(){
-    if [ -n "$1" ]; then
-        for item in ${1//|/ }
-        do
-            eval "$2 $3 ${item}"
-        done
-    fi
-}
-
-# AfterPackage
-# AfterPull
-# BeforePull
-# StartUp
-# 已启动|准备拉取代码|代码已拉取|打包部署完成
-
-ACTION_ARRAY=(StartUp BeforePull AfterPull AfterPackage)
 function parse_action_label(){
     if [ -n "$NOTIFY_ACTION_LABEL" ]; then
         label_arr=(${NOTIFY_ACTION_LABEL//|/ })
-        action_idx=`parse_action_index $1`
+        action_idx=(parse_action_index $1)
         echo "${label_arr[action_idx]}"
     else
-        return $1
+        echo $1
     fi
 }
 
+ACTION_ARRAY=(StartUp BeforePull AfterPull AfterPackage)
 function parse_action_index(){
     for i in "${!ACTION_ARRAY[@]}"; do
-        if [[ "${ACTION_ARRAY[$i]}" = "${1}" ]]; then
+        if [ "${ACTION_ARRAY[$i]}" = "${1}" ]; then
             echo "${i}";
         fi
     done
 }
 
+# $3 url or token list
+# $1 func name
+# $2 action
+function notify_run(){
+    if [ -n "$3" ]; then
+        for item in ${3//|/ }
+        do
+            eval "$1 $2 $item"
+        done
+    fi
+}
+
+
 # notify all notify service
 function notify_all(){
-    notify_run $NOTIFY_URL_LIST "notify_url_single" $1
-    notify_run $IFTTT_HOOK_URL_LIST "ifttt_single" $1
-    notify_run $DINGTALK_TOKEN_LIST "dingtalk_notify_single" $1
+    notify_run "notify_url_single" $1 $NOTIFY_URL_LIST
+    notify_run "ifttt_single" $1 $IFTTT_HOOK_URL_LIST
+    notify_run "dingtalk_notify_single" $1 $DINGTALK_TOKEN_LIST
 }
+
 
 # record end time as long as "$1" is present
 # record start:elasped_package_time 
@@ -144,3 +141,4 @@ parse_git_hash() {
 parse_git_message() {
     git show --pretty=format:%s -s HEAD 2>/dev/null
 }
+

@@ -46,8 +46,7 @@ echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
 if [ -n "$AFTER_PACKAGE_COMMANDS" ]; then
     echo "after package command do..." 
     eval "$AFTER_PACKAGE_COMMANDS"
-else
-
+fi
 
 echo "after package shell do..." 
 source /usr/bin/run_scripts_after_package.sh

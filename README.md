@@ -112,7 +112,10 @@ services:
       - AFTER_PACKAGE_COMMANDS=echo "elapsed time: $(cat /tmp/ELAPSED_TIME_LABEL)"
       - APP_NAME=vuepress_app
       - NOTIFY_ACTION_LABEL=已启动|准备拉取代码|代码已拉取|打包部署完成
-      - NOTIFY_URL_LIST=http://link1.com/hook|http://link2.com/hook
+      - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
+      - NOTIFY_URL_LIST=https://request.worktile.com/asdfsfwe
+      - IFTTT_HOOK_URL_LIST=https://maker.ifttt.com/trigger/event_name/with/keyhelloworld
+      - DINGTALK_TOKEN_LIST=sldfj2hr923rsf2938u4sdfsf|lsdf203sjdf
     restart: on-failure
     ports:
       - 168:80

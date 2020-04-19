@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eo pipefail
+
 source /custom_scripts/potato/utils-git-webhook-node.sh
 
 # notify send
@@ -17,9 +19,9 @@ fi
 # build code
 echo "building code..."
 if [ -n "$BUILD_COMMAND" ]; then
-    eval "$BUILD_COMMAND"
+    eval "$BUILD_COMMAND || (echo \"Build failed. Aborting!\"; exit 1)"
 else
-    npm run build
+    npm run build || (echo "Build failed. Aborting!"; exit 1)
 fi
 
 # move target

@@ -7,6 +7,7 @@ source /custom_scripts/potato/utils-git-webhook-node.sh
 # notify send
 notify_all "AfterPull"
 
+
 # install deps
 echo "installing deps..."
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
@@ -34,6 +35,9 @@ fi
 
 # calc package elasped time
 elasped_package_time "end"
+
+# record current git commit id
+echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
 
 # after package command
 echo "after package command do..." 

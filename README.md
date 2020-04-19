@@ -28,8 +28,8 @@ The following flags are a list of all the currently supported options that can b
 ### Base
 
 * **USE_HOOK** : The web hook is enabled as long as this is present.
-* **GIT_REPO** : URL to the repository containing your source code
-* **GIT_BRANCH** : Select a specific branch (optional)
+* **GIT_REPO** : URL to the repository containing your source code.
+* **GIT_BRANCH** : Select a branch for clone and auto hook.
 * **GIT_EMAIL** : Set your email for code pushing (required for git to work)
 * **GIT_NAME** : Set your name for code pushing (required for git to work)
 * **INSTALL_DEPS_COMMAND**: The command your frontend framework provides for install your code depends.  default is: `npm install`
@@ -79,6 +79,11 @@ show package elapsed time label.
 
 ```sh
 docker exec servername cat /tmp/ELAPSED_TIME_LABEL
+```
+
+show git commit hash that currently deployed successfully.
+```sh
+docker exec servername cat /tmp/CURRENT_GIT_COMMIT_ID
 ```
 
 ---

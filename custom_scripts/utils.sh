@@ -89,9 +89,16 @@ function notify_run(){
 
 # notify all notify service
 function notify_all(){
-    notify_run "notify_url_single" $1 $NOTIFY_URL_LIST
-    notify_run "ifttt_single" $1 $IFTTT_HOOK_URL_LIST
-    notify_run "dingtalk_notify_single" $1 $DINGTALK_TOKEN_LIST
+    if [ ! -n "$NOTIFY_ACTION_LIST" ]; then
+        NOTIFY_ACTION_LIST="BeforePull|AfterPackage"
+    fi
+    action_str_idx=`awk "BEGIN{ print index(\"$NOTIFY_ACTION_LIST\",\"$1\") }"`
+
+    if [ $action_str_idx -gt 0 ]; then
+        notify_run "notify_url_single" $1 $NOTIFY_URL_LIST
+        notify_run "ifttt_single" $1 $IFTTT_HOOK_URL_LIST
+        notify_run "dingtalk_notify_single" $1 $DINGTALK_TOKEN_LIST
+    fi
 }
 
 

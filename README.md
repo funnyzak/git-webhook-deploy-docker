@@ -5,7 +5,7 @@ Pull code is triggered via WebHook, then build the code. And send notifications.
 [![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-node-build.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-build/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-node-build.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-build/)
 
-This image is based on Alpine Linux image, which is a 169 image.
+This image is based on Alpine Linux image, which is a 200 image.
 
 Download size of this image is:
 
@@ -36,10 +36,10 @@ The following flags are a list of all the currently supported options that can b
 * **INSTALL_DEPS_COMMAND**: The command your frontend framework provides for install your code depends.  default is: `npm install`
 * **BUILD_COMMAND**: The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build`
 * **OUTPUT_DIRECTORY**: The directory in which your compiled frontend will be located. default is "."
-* **STARTUP_COMMANDS** : Add any commands that will be run at the end of the start.sh script
-* **AFTER_PULL_COMMANDS** : Add any commands that will be run after pull
-* **BEFORE_PULL_COMMANDS** : Add any commands that will be run before pull
-* **AFTER_PACKAGE_COMMANDS** : Add any commands that will be run after package.
+* **STARTUP_COMMANDS** : Optional. Add any commands that will be run at the end of the start.sh script
+* **AFTER_PULL_COMMANDS** : Optional. Add any commands that will be run after pull
+* **BEFORE_PULL_COMMANDS** : Optional. Add any commands that will be run before pull
+* **AFTER_PACKAGE_COMMANDS** : Optional. Add any commands that will be run after package.
 
 ### Notify
 

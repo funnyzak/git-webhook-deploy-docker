@@ -11,18 +11,18 @@ notify_all "AfterPull"
 # install deps
 echo "installing deps..."
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
-    eval "$INSTALL_DEPS_COMMAND"
+    eval "$INSTALL_DEPS_COMMAND || (echo \"Installing deps failed. Aborting!\"; $(notify_error); exit 1)"
 else
-    npm install
+    npm install || (echo "Installing deps failed. Aborting!"; $(notify_error); exit 1)
 fi
 
 
 # build code
 echo "building code..."
 if [ -n "$BUILD_COMMAND" ]; then
-    eval "$BUILD_COMMAND || (echo \"Build failed. Aborting!\"; exit 1)"
+    eval "$BUILD_COMMAND || (echo \"Build failed. Aborting!\"; $(notify_error); exit 1)"
 else
-    npm run build || (echo "Build failed. Aborting!"; exit 1)
+    npm run build || (echo "Build failed. Aborting!"; $(notify_error); exit 1)
 fi
 
 # move target

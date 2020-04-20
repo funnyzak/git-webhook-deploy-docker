@@ -31,15 +31,15 @@ The following flags are a list of all the currently supported options that can b
 * **HOOK_TOKEN** : Custom hook security tokens, strings.
 * **GIT_REPO** : url to the repository containing your source code.
 * **GIT_BRANCH** : Select a branch for clone and auto hook match.
-* **GIT_EMAIL** : Set your email for code pushing (required for git to work)
-* **GIT_NAME** : Set your name for code pushing (required for git to work)
-* **INSTALL_DEPS_COMMAND**: The command your frontend framework provides for install your code depends.  default is: `npm install`
-* **BUILD_COMMAND**: The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build`
-* **OUTPUT_DIRECTORY**: The directory in which your compiled frontend will be located. default is "."
-* **STARTUP_COMMANDS** : Optional. Add any commands that will be run at the end of the start.sh script
-* **AFTER_PULL_COMMANDS** : Optional. Add any commands that will be run after pull
-* **BEFORE_PULL_COMMANDS** : Optional. Add any commands that will be run before pull
-* **AFTER_PACKAGE_COMMANDS** : Optional. Add any commands that will be run after package.
+* **GIT_EMAIL** : Set your email for git (required for git to work)
+* **GIT_NAME** : Set your name for git (required for git to work)
+* **INSTALL_DEPS_COMMAND**: Optional. The command your frontend framework provides for install your code depends.  eg: `npm ci`. left blank, will not execute.
+* **BUILD_COMMAND**: Optional. The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build` . left blank, will not execute.
+* **OUTPUT_DIRECTORY**: Optional. The directory in which your compiled frontend will be located. left blank, will not execute.
+* **STARTUP_COMMANDS** : Optional. Add any commands that will be run at the end of the start.sh script. left blank, will not execute.
+* **AFTER_PULL_COMMANDS** : Optional. Add any commands that will be run after pull. left blank, will not execute.
+* **BEFORE_PULL_COMMANDS** : Optional. Add any commands that will be run before pull. left blank, will not execute.
+* **AFTER_PACKAGE_COMMANDS** : Optional. Add any commands that will be run after package. left blank, will not execute.
 
 ### Notify
 

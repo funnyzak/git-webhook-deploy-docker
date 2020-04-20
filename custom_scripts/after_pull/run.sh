@@ -11,9 +11,9 @@ notify_all "AfterPull"
 echo "installing deps..."
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
     echo "run installing deps command: $INSTALL_DEPS_COMMAND"
-    $INSTALL_DEPS_COMMAND || echo "Installing deps failed. Aborting!"; notify_error; exit 1
+    $INSTALL_DEPS_COMMAND
 else
-    npm install || echo "Installing deps failed. Aborting!"; notify_error; exit 1
+    npm install
 fi
 
 # build code

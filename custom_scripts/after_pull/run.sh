@@ -10,7 +10,8 @@ notify_all "AfterPull"
 # install deps
 echo "installing deps..."
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
-    eval "$INSTALL_DEPS_COMMAND || echo "Installing deps failed. Aborting!"; $\(notify_error\); exit 1"
+    echo "run installing deps command: $INSTALL_DEPS_COMMAND"
+    $INSTALL_DEPS_COMMAND || echo "Installing deps failed. Aborting!"; $(notify_error); exit 1
 else
     npm install || echo "Installing deps failed. Aborting!"; $(notify_error); exit 1
 fi
@@ -18,7 +19,8 @@ fi
 # build code
 echo "building code..."
 if [ -n "$BUILD_COMMAND" ]; then
-    eval "$BUILD_COMMAND || echo "Build failed. Aborting;"; $\(notify_error\) ; exit 1"
+    echo "run build command: $BUILD_COMMAND"
+    $BUILD_COMMAND || echo "Build failed. Aborting;"; $(notify_error) ; exit 1
 else
     npm run build || echo "Build failed. Aborting;" ; $(notify_error) ; exit 1
 fi
@@ -41,7 +43,7 @@ echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
 # after package command
 if [ -n "$AFTER_PACKAGE_COMMANDS" ]; then
     echo "after package command do..." 
-    eval "$AFTER_PACKAGE_COMMANDS || echo "After Package Command failed. Aborting!"; $\(notify_error\); exit 1"
+    $AFTER_PACKAGE_COMMANDS || echo "After Package Command failed. Aborting!"; $(notify_error); exit 1
 fi
 
 set +e

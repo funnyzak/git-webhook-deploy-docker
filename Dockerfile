@@ -4,14 +4,14 @@ ARG BUILD_DATE
 ARG VCS_REF
 
 LABEL org.label-schema.vendor="potato<silenceace@gmail.com>" \
-    org.label-schema.name="GitWebhookNodeBuild" \
+    org.label-schema.name="GitWebhookNodeDeploy" \
     org.label-schema.build-date="${BUILD_DATE}" \
-    org.label-schema.description="Pulling the source code is triggered via WebHook, then build the source code. And send notifications before and after the Pull Code." \
+    org.label-schema.description="Pull code is triggered via WebHook, then build the code. And send notifications." \
     org.label-schema.url="https://yycc.me" \
     org.label-schema.schema-version="1.0"	\
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-ref="${VCS_REF}" \
-    org.label-schema.vcs-url="https://github.com/funnyzak/git-webhook-node-build-docker" 
+    org.label-schema.vcs-url="https://github.com/funnyzak/git-webhook-node-deploy-docker" 
 
 # Install nginx
 RUN apk update && apk upgrade && \

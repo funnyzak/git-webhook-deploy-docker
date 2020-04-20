@@ -20,10 +20,13 @@ set -e
 echo "building code..."
 if [ -n "$BUILD_COMMAND" ]; then
     echo "run build command: $BUILD_COMMAND"
-    $BUILD_COMMAND || echo "Build failed. Aborting;"; notify_error ; exit 1
+    $BUILD_COMMAND || (echo "Build failed. Aborting;"; notify_error ; exit 1)
 else
-    npm run build || echo "Build failed. Aborting;" ; notify_error ; exit 1
+    npm run build || (echo "Build failed. Aborting;" ; notify_error ; exit 1)
 fi
+
+set +e
+
 
 # move target
 echo "moving to target dir..."
@@ -40,13 +43,16 @@ elasped_package_time "end"
 # record current git commit id
 echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
 
+# after package notify
+notify_all "AfterPackage"
+
+
 # after package command
 if [ -n "$AFTER_PACKAGE_COMMANDS" ]; then
     echo "after package command do: ${AFTER_PACKAGE_COMMANDS}" 
-    $AFTER_PACKAGE_COMMANDS || echo "After Package Command failed. Aborting!"; notify_error; exit 1
+    $AFTER_PACKAGE_COMMANDS || (echo "After Package Command failed. Aborting!"; notify_error; exit 1)
 fi
 
-set +e
 
 echo "after package shell do..." 
 source /usr/bin/run_scripts_after_package.sh

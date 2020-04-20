@@ -1,19 +1,19 @@
-# Git Webhook Node Build And Notify Docker
+# Git Webhook Node Deploy And Notify Docker
 
 Pull code is triggered via WebHook, then build the code. And send notifications.
 
-[![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-node-build.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-build/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-node-build.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-build/)
+[![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-node-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-deploy/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-node-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-deploy/)
 
 This image is based on Alpine Linux image, which is a 200 image.
 
 Download size of this image is:
 
-[![](https://images.microbadger.com/badges/image/funnyzak/git-webhook-node-build.svg)](http://microbadger.com/images/funnyzak/git-webhook-node-build)
+[![](https://images.microbadger.com/badges/image/funnyzak/git-webhook-node-deploy.svg)](http://microbadger.com/images/funnyzak/git-webhook-node-deploy)
 
-[Docker hub image: funnyzak/git-webhook-node-build](https://hub.docker.com/r/funnyzak/git-webhook-node-build)
+[Docker hub image: funnyzak/git-webhook-node-deploy](https://hub.docker.com/r/funnyzak/git-webhook-node-deploy)
 
-Docker Pull Command: `docker pull funnyzak/git-webhook-node-build`
+Docker Pull Command: `docker pull funnyzak/git-webhook-node-deploy`
 
 Visit Url: [http://hostname:80/](#)
 
@@ -55,7 +55,7 @@ The following flags are a list of all the currently supported options that can b
 
 ## Volume Configuration
 
-* **/root/.ssh** :  If it is a private repository, please set ssh key
+* **/root/.ssh** :  If it is a private repository, please set ssh key.
 * **/app/target** :  builded code files will move to this folder.
 * **/app/code** : git source code dir. docker work dir.
 * **/custom_scripts/on_startup** :  which the scripts are executed at startup, traversing all the scripts and executing them sequentially
@@ -92,11 +92,13 @@ docker exec servername cat /tmp/CURRENT_GIT_COMMIT_ID
 
 ## Docker-Compose
 
+Base Demo Yaml.
+
  ```docker
 version: '3'
 services:
   webapp:
-    image: funnyzak/git-webhook-node-build
+    image: funnyzak/git-webhook-node-deploy
     privileged: true
     container_name: webapp
     working_dir: /app/code
@@ -127,7 +129,7 @@ services:
       - JISHIDA_TOKEN_LIST=fklsjfklj23094lfjsd
     restart: on-failure
     ports:
-      - 168:80
+      - 80:80
     volumes:
       - ./target:/app/target
       - ./code:/app/code
@@ -135,6 +137,180 @@ services:
       - ./after_package:/custom_scripts/after_package
 
  ```
+
+WebHook URL: [http://hostname/hooks/git-webhook?token=hello](#)
+
+---
+
+ VuePress YAML.
+
+```Docker
+  vuepressapp:
+    image: funnyzak/git-webhook-node-deploy
+    privileged: true
+    container_name: vuepress
+    working_dir: /app/code
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    tty: true
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=C.UTF-8
+      - USE_HOOK=1
+      - HOOK_TOKEN=6fcc11ace14c6
+      - APP_NAME=VuePress Docs
+      - GIT_REPO=git@github.com:youanme/reponame.git
+      - GIT_BRANCH=master
+      - GIT_EMAIL=youremail
+      - GIT_NAME=yourname
+      - INSTALL_DEPS_COMMAND=npm install
+      - BUILD_COMMAND=npm run build
+      - OUTPUT_DIRECTORY=.vuepress/dist/
+      - NOTIFY_ACTION_LABEL=已启动|源码拉取中..|源码已拉取最新,开始打包..|部署已完成
+      - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
+      - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two
+      - JISHIDA_TOKEN_LIST=jishida_token
+    restart: on-failure
+    ports:
+      - 80:80
+    volumes:
+      - ./code:/app/code
+      - ./target:/app/target
+      - ./ssh:/root/.ssh
+```
+
+WebHook URL: [http://hostname/hooks/git-webhook?token=6fcc11ace14c6](#)
+
+Web URL: [http://hostname](#)
+
+---
+
+ Hexo YAML.
+
+```Docker
+  hexoapp:
+    image: funnyzak/git-webhook-node-deploy
+    privileged: true
+    container_name: hexo
+    working_dir: /app/code
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    tty: true
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=C.UTF-8
+      - USE_HOOK=1
+      - HOOK_TOKEN=6fcc11ace14c6
+      - APP_NAME=HexoBlog
+      - GIT_REPO=git@github.com:youanme/reponame.git
+      - GIT_BRANCH=master
+      - GIT_EMAIL=youremail
+      - GIT_NAME=yourname
+      - INSTALL_DEPS_COMMAND=npm install
+      - BUILD_COMMAND=npm run build
+      - OUTPUT_DIRECTORY=public/
+      - NOTIFY_ACTION_LABEL=已启动|源码拉取中..|源码已拉取最新,开始打包..|部署已完成
+      - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
+      - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two
+      - JISHIDA_TOKEN_LIST=jishida_token
+    restart: on-failure
+    ports:
+      - 80:80
+    volumes:
+      - ./code:/app/code
+      - ./target:/app/target
+      - ./ssh:/root/.ssh
+```
+
+Static Web YAML.
+
+```Docker
+  staticapp:
+    image: funnyzak/git-webhook-node-deploy
+    privileged: true
+    container_name: static
+    working_dir: /app/code
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    tty: true
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=C.UTF-8
+      - USE_HOOK=1
+      - HOOK_TOKEN=6fcc11ace14c6
+      - APP_NAME=staticsite
+      - GIT_REPO=git@github.com:youanme/reponame.git
+      - GIT_BRANCH=master
+      - GIT_EMAIL=youremail
+      - GIT_NAME=yourname
+      - OUTPUT_DIRECTORY=.
+      - NOTIFY_ACTION_LABEL=已启动|更新拉取中..|部署已完成|部署已完成
+      - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull
+      - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two
+      - JISHIDA_TOKEN_LIST=jishida_token
+    restart: on-failure
+    ports:
+      - 80:80
+    volumes:
+      - ./code:/app/code
+      - ./ssh:/root/.ssh
+```
+
+WebHook URL: [http://hostname/hooks/git-webhook?token=6fcc11ace14c6](#)
+
+Web URL: [http://hostname](#)
+
+---
+
+Node App Deploy.
+
+```Docker
+  nodeapp:
+    image: funnyzak/git-webhook-node-deploy
+    privileged: true
+    container_name: node
+    working_dir: /app/code
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    tty: true
+    environment:
+      - TZ=Asia/Shanghai
+      - LANG=C.UTF-8
+      - NODE_ENV=production
+      - USE_HOOK=1
+      - HOOK_TOKEN=6fcc11ace14c6
+      - APP_NAME=nodeapp
+      - GIT_REPO=git@github.com:youanme/reponame.git
+      - GIT_BRANCH=master
+      - GIT_EMAIL=youremail
+      - GIT_NAME=yourname
+      - STARTUP_COMMANDS=npm install --production && (node index.js NODE_ENV=production --name 'appname' &) # install deps and start node app
+      - INSTALL_DEPS_COMMAND=npm install --production # after pull and install deps
+      - AFTER_PACKAGE_COMMANDS=set +e; ps ax |grep "appname" | awk '{print $1}' |xargs kill -9 ; node index.js NODE_ENV=production --name 'appname' & # kill node app and start node app
+      - NOTIFY_ACTION_LABEL=已启动|更新拉取中..|最新更新已拉取|已完成启动
+      - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
+      - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two
+      - JISHIDA_TOKEN_LIST=jishida_token
+    restart: on-failure
+    ports:
+      - 9000:9000 # hook url
+      - 168:168 # node app port, Configured according to the actual listening port of the node app
+    volumes:
+      - ./code:/app/code
+      - ./ssh:/root/.ssh
+```
+
+WebHook URL: [http://hostname:9000/hooks/git-webhook?token=6fcc11ace14c6](#)
+
+NODE App URL: [http://hostname:168](#)
 
 ---
 

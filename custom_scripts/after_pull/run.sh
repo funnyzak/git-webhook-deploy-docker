@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 source /custom_scripts/potato/utils-git-webhook-node.sh
 
 # notify send
@@ -15,6 +13,8 @@ if [ -n "$INSTALL_DEPS_COMMAND" ]; then
 else
     npm install
 fi
+
+set -e
 
 # build code
 echo "building code..."

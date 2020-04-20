@@ -7,7 +7,6 @@ source /custom_scripts/potato/utils-git-webhook-node.sh
 # notify send
 notify_all "AfterPull"
 
-
 # install deps
 echo "installing deps..."
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
@@ -15,7 +14,6 @@ if [ -n "$INSTALL_DEPS_COMMAND" ]; then
 else
     npm install || (echo "Installing deps failed. Aborting!"; $(notify_error); exit 1)
 fi
-
 
 # build code
 echo "building code..."

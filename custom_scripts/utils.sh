@@ -70,7 +70,6 @@ function jishida_notify_single() {
         --data-urlencode "key=${TOKEN}" \
         --data-urlencode "head=${APP_NAME}${ACTION_NAME}." \
         --data-urlencode "body=${ACTION_NAME}, Branch：$(parse_git_branch);  Commit Msg：$(parse_git_message);  Commit ID: $(parse_git_hash);  ${elasped_lable}."
-        -H "application/x-www-form-urlencoded; charset=UTF-8"
 
     echo "$APP_NAME $ACTION_NAME. JiShiDa Notification Sended."
 }

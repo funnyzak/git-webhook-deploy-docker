@@ -249,7 +249,7 @@ Static Web YAML.
       - GIT_BRANCH=master
       - GIT_EMAIL=youremail
       - GIT_NAME=yourname
-      - OUTPUT_DIRECTORY=.
+      - OUTPUT_DIRECTORY=./
       - NOTIFY_ACTION_LABEL=已启动|更新拉取中..|部署已完成|部署已完成
       - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull
       - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two

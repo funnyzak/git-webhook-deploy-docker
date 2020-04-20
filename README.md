@@ -29,7 +29,7 @@ The following flags are a list of all the currently supported options that can b
 
 * **USE_HOOK** : The web hook is enabled as long as this is present.
 * **HOOK_TOKEN** : Custom hook security tokens, strings.
-* **GIT_REPO** : URL to the repository containing your source code.
+* **GIT_REPO** : url to the repository containing your source code.
 * **GIT_BRANCH** : Select a branch for clone and auto hook match.
 * **GIT_EMAIL** : Set your email for code pushing (required for git to work)
 * **GIT_NAME** : Set your name for code pushing (required for git to work)
@@ -46,17 +46,18 @@ The following flags are a list of all the currently supported options that can b
 * **NOTIFY_ACTION_LABEL**: Optional. notify action name define. default : `StartUp|BeforePull|AfterPull|AfterPackage`
 * **NOTIFY_ACTION_LIST**: Optional. notify action list. included events will be notified. default : `BeforePull|AfterPackage`
 * **NOTIFY_URL_LIST** : Optional. Notify link array , each separated by **|**
-* **IFTTT_HOOK_URL_LIST** : Optional. ifttt webhook url array , each separated by **|**
-* **DINGTALK_TOKEN_LIST**: Optional. DingTalk Bot TokenList, each separated by **|**
+* **IFTTT_HOOK_URL_LIST** : Optional. ifttt webhook url array , each separated by **|** [Official Site](https://ifttt.com/maker_webhooks).
+* **DINGTALK_TOKEN_LIST**: Optional. DingTalk Bot TokenList, each separated by **|** [Official Site](http://www.dingtalk.com).
+* **JISHIDA_TOKEN_LIST**: Optional. JiShiDa TokenList, each separated by **|**. [Official Site](http://push.ijingniu.cn/admin/index/).
 * **APP_NAME** : Optional. When setting notify, it is best to set.
 
 ---
 
 ## Volume Configuration
 
+* **/root/.ssh** :  If it is a private repository, please set ssh key
 * **/app/target** :  builded code files will move to this folder.
 * **/app/code** : git source code dir. docker work dir.
-* **/root/.ssh** :  If it is a private repository, please set ssh key
 * **/custom_scripts/on_startup** :  which the scripts are executed at startup, traversing all the scripts and executing them sequentially
 * **/custom_scripts/before_pull** :  which the scripts are executed at before pull
 * **/custom_scripts/after_pull** :  which the scripts are executed at after pull
@@ -123,6 +124,7 @@ services:
       - NOTIFY_URL_LIST=https://request.worktile.com/asdfsfwe
       - IFTTT_HOOK_URL_LIST=https://maker.ifttt.com/trigger/event_name/with/keyhelloworld
       - DINGTALK_TOKEN_LIST=sldfj2hr923rsf2938u4sdfsf|lsdf203sjdf
+      - JISHIDA_TOKEN_LIST=fklsjfklj23094lfjsd
     restart: on-failure
     ports:
       - 168:80

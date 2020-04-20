@@ -56,6 +56,25 @@ function dingtalk_notify_single() {
     echo "$APP_NAME $ACTION_NAME. DingTalk Notification Sended."
 }
 
+# send notification to jishida
+function jishida_notify_single() {
+    ACTION_NAME=`parse_action_label "$1"`
+    TOKEN=$2
+
+    if [ "$1" == "AfterPackage" ]; then
+         elasped_lable="Elasped Time: `elasped_package_time_label`"
+    fi
+    
+    echo "$APP_NAME $ACTION_NAME. JiShiDa Notification Sending..."
+    curl "http://push.ijingniu.cn/send" \
+        --data-urlencode "key=${TOKEN}" \
+        --data-urlencode "head=${APP_NAME}${ACTION_NAME}." \
+        --data-urlencode "body=${ACTION_NAME}, Branch：$(parse_git_branch);  Commit Msg：$(parse_git_message);  Commit ID: $(parse_git_hash);  ${elasped_lable}."
+        -H "application/x-www-form-urlencoded; charset=UTF-8"
+
+    echo "$APP_NAME $ACTION_NAME. JiShiDa Notification Sended."
+}
+
 function ifttt_single() {
     ACTION_NAME=`parse_action_label "$1"`
     NOTIFY_URL=$2
@@ -118,16 +137,18 @@ function notify_all(){
 
     if [ $action_str_idx -gt 0 -o $1 == "Error" ]; then
         notify_run "notify_url_single" "$1" "$NOTIFY_URL_LIST"
-        notify_run "ifttt_single" "$1" "$IFTTT_HOOK_URL_LIST"
         notify_run "dingtalk_notify_single" "$1" "$DINGTALK_TOKEN_LIST"
+        notify_run "jishida_notify_single" "$1" "$JISHIDA_TOKEN_LIST"
+        notify_run "ifttt_single" "$1" "$IFTTT_HOOK_URL_LIST"
     fi
 }
 
 function notify_error(){
     ERROR_MSG="Package Error, Please Check Runtime Logs"
     notify_run "notify_url_single" "$ERROR_MSG" "$NOTIFY_URL_LIST"
-    notify_run "ifttt_single" "$ERROR_MSG" "$IFTTT_HOOK_URL_LIST"
     notify_run "dingtalk_notify_single" "$ERROR_MSG" "$DINGTALK_TOKEN_LIST"
+    notify_run "jishida_notify_single" "$ERROR_MSG" "$JISHIDA_TOKEN_LIST"
+    notify_run "ifttt_single" "$ERROR_MSG" "$IFTTT_HOOK_URL_LIST"
 }
 
 # record end time as long as "$1" is present

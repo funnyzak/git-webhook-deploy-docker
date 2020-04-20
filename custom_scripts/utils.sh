@@ -1,5 +1,6 @@
 #!/bin/bash
-
+# author:funnyzak
+# email:silenceace@gmail.com
 
 # send notification to url 
 function notify_url_single(){

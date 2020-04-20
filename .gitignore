@@ -1,4 +1,4 @@
 docker-compose.yml
-code/*
-ssh/*
-target/*
+code
+ssh
+target

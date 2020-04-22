@@ -1,19 +1,19 @@
-# Git Webhook Node Deploy And Notify Docker
+# Git Webhook Deploy And Notify Docker
 
 Pull code is triggered via WebHook, then build the code. And send notifications.
 
-[![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-node-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-deploy/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-node-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-node-deploy/)
+[![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-deploy/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-deploy/)
 
 This image is based on Alpine Linux image, which is a 200 image.
 
 Download size of this image is:
 
-[![](https://images.microbadger.com/badges/image/funnyzak/git-webhook-node-deploy.svg)](http://microbadger.com/images/funnyzak/git-webhook-node-deploy)
+[![](https://images.microbadger.com/badges/image/funnyzak/git-webhook-deploy.svg)](http://microbadger.com/images/funnyzak/git-webhook-deploy)
 
-[Docker hub image: funnyzak/git-webhook-node-deploy](https://hub.docker.com/r/funnyzak/git-webhook-node-deploy)
+[Docker hub image: funnyzak/git-webhook-deploy](https://hub.docker.com/r/funnyzak/git-webhook-deploy)
 
-Docker Pull Command: `docker pull funnyzak/git-webhook-node-deploy`
+Docker Pull Command: `docker pull funnyzak/git-webhook-deploy`
 
 Visit Url: [http://hostname:80/](#)
 
@@ -33,9 +33,9 @@ The following flags are a list of all the currently supported options that can b
 * **GIT_BRANCH** : Select a branch for clone and auto hook match.
 * **GIT_EMAIL** : Set your email for git (required for git to work).
 * **GIT_NAME** : Set your name for git (required for git to work).
-* **INSTALL_DEPS_COMMAND**: Optional. The command your frontend framework provides for install your code depends.  eg: `npm ci`. left blank, will not execute.
-* **BUILD_COMMAND**: Optional. The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build` . left blank, will not execute.
-* **OUTPUT_DIRECTORY**: Optional. The directory in which your compiled frontend will be located. left blank, will not execute.
+* **INSTALL_DEPS_COMMAND**: Optional. The command your framework provides for install your code depends.  eg: `npm ci`. left blank, will not execute.
+* **BUILD_COMMAND**: Optional. The command your framework provides for compiling your code. eg: `npm run build`、`yarn build` . left blank, will not execute.
+* **OUTPUT_DIRECTORY**: Optional. The directory in which your compiled will be located. left blank, will not execute.
 * **STARTUP_COMMANDS** : Optional. Add any commands that will be run at the end of the start.sh script. left blank, will not execute.
 * **AFTER_PULL_COMMANDS** : Optional. Add any commands that will be run after pull. left blank, will not execute.
 * **BEFORE_PULL_COMMANDS** : Optional. Add any commands that will be run before pull. left blank, will not execute.
@@ -98,7 +98,7 @@ Base Demo Yaml.
 version: '3'
 services:
   webapp:
-    image: funnyzak/git-webhook-node-deploy
+    image: funnyzak/git-webhook-deploy
     privileged: true
     container_name: webapp
     working_dir: /app/code
@@ -146,7 +146,7 @@ WebHook URL: [http://hostname/hooks/git-webhook?token=hello](#)
 
 ```Docker
   vuepressapp:
-    image: funnyzak/git-webhook-node-deploy
+    image: funnyzak/git-webhook-deploy
     privileged: true
     container_name: vuepress
     working_dir: /app/code
@@ -191,7 +191,7 @@ Web URL: [http://hostname](#)
 
 ```Docker
   hexoapp:
-    image: funnyzak/git-webhook-node-deploy
+    image: funnyzak/git-webhook-deploy
     privileged: true
     container_name: hexo
     working_dir: /app/code
@@ -230,7 +230,7 @@ Static Web YAML.
 
 ```Docker
   staticapp:
-    image: funnyzak/git-webhook-node-deploy
+    image: funnyzak/git-webhook-deploy
     privileged: true
     container_name: static
     working_dir: /app/code
@@ -272,7 +272,7 @@ Node App Deploy.
 
 ```Docker
   nodeapp:
-    image: funnyzak/git-webhook-node-deploy
+    image: funnyzak/git-webhook-deploy
     privileged: true
     container_name: node
     working_dir: /app/code

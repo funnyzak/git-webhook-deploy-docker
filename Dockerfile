@@ -1,17 +1,17 @@
-FROM funnyzak/git-webhook-node
+FROM funnyzak/git-webhook
 
 ARG BUILD_DATE
 ARG VCS_REF
 
 LABEL org.label-schema.vendor="potato<silenceace@gmail.com>" \
-    org.label-schema.name="GitWebhookNodeDeploy" \
+    org.label-schema.name="GitWebhookDeploy" \
     org.label-schema.build-date="${BUILD_DATE}" \
-    org.label-schema.description="Pull code is triggered via WebHook, then build the code. And send notifications." \
+    org.label-schema.description="Pull code is triggered via WebHook, then deploy And send notifications." \
     org.label-schema.url="https://yycc.me" \
     org.label-schema.schema-version="1.0"	\
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-ref="${VCS_REF}" \
-    org.label-schema.vcs-url="https://github.com/funnyzak/git-webhook-node-deploy-docker" 
+    org.label-schema.vcs-url="https://github.com/funnyzak/git-webhook-deploy-docker" 
 
 # Install nginx
 RUN apk update && apk upgrade && \

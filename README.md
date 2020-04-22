@@ -5,7 +5,7 @@ Pull code is triggered via WebHook, then build the code. And send notifications.
 [![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-deploy/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-deploy/)
 
-This image is based on Alpine Linux image, which is a 200 image.
+This image is based on **[funnyzak/git-webhook](https://github.com/funnyzak/git-webhook-docker.git)** image, which is a 432 image.
 
 Download size of this image is:
 

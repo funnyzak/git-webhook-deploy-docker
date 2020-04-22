@@ -29,10 +29,10 @@ The following flags are a list of all the currently supported options that can b
 
 * **USE_HOOK** : The web hook is enabled as long as this is present.
 * **HOOK_TOKEN** : Custom hook security tokens, strings.
-* **GIT_REPO** : url to the repository containing your source code.
+* **GIT_REPO** : If it is a private repository, and is ssh link, set the private key file with the file name ***id_rsa*** must be set. If you use https link, you can also set this format link type: ***https://GIT_TOKEN@GIT_REPO***.
 * **GIT_BRANCH** : Select a branch for clone and auto hook match.
-* **GIT_EMAIL** : Set your email for git (required for git to work)
-* **GIT_NAME** : Set your name for git (required for git to work)
+* **GIT_EMAIL** : Set your email for git (required for git to work).
+* **GIT_NAME** : Set your name for git (required for git to work).
 * **INSTALL_DEPS_COMMAND**: Optional. The command your frontend framework provides for install your code depends.  eg: `npm ci`. left blank, will not execute.
 * **BUILD_COMMAND**: Optional. The command your frontend framework provides for compiling your code. eg: `npm run build`、`yarn build` . left blank, will not execute.
 * **OUTPUT_DIRECTORY**: Optional. The directory in which your compiled frontend will be located. left blank, will not execute.
@@ -55,7 +55,7 @@ The following flags are a list of all the currently supported options that can b
 
 ## Volume Configuration
 
-* **/root/.ssh** :  If it is a private repository, please set ssh key.
+* **/root/.ssh** :  ssh key folder.
 * **/app/target** :  builded code files will move to this folder.
 * **/app/code** : git source code dir. docker work dir.
 * **/custom_scripts/on_startup** :  which the scripts are executed at startup, traversing all the scripts and executing them sequentially

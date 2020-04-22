@@ -9,6 +9,8 @@ notify_all "AfterPull"
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
     echo "run installing deps command: $INSTALL_DEPS_COMMAND"
     $INSTALL_DEPS_COMMAND
+else
+    echo "no installing deps command. skiped."
 fi
 
 
@@ -18,6 +20,8 @@ set -e
 if [ -n "$BUILD_COMMAND" ]; then
     echo "run build command: $BUILD_COMMAND"
     $BUILD_COMMAND || (echo "Build failed. Aborting;"; notify_error ; exit 1)
+else
+    echo "no build command. skiped."
 fi
 
 set +e
@@ -25,9 +29,11 @@ set +e
 
 # copy output files  
 if [ -n "$OUTPUT_DIRECTORY" ]; then
-    echo "moving to target dir..."
+    echo "moving output folder: /app/code/$OUTPUT_DIRECTORY to target folder: /app/target/..."
     eval "rsync -q -r --delete $OUTPUT_DIRECTORY /app/target/"
     echo "moving to target dir done."
+else
+    echo "no OUTPUT_DIRECTORY set. skiped."
 fi
 
 
@@ -45,6 +51,8 @@ notify_all "AfterPackage"
 if [ -n "$AFTER_PACKAGE_COMMANDS" ]; then
     echo "after package command do: ${AFTER_PACKAGE_COMMANDS}" 
     $AFTER_PACKAGE_COMMANDS || (echo "After Package Command failed. Aborting!"; notify_error; exit 1)
+else
+    echo "no after package command. skiped."
 fi
 
 

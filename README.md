@@ -292,9 +292,7 @@ Node App Deploy.
       - GIT_BRANCH=master
       - GIT_EMAIL=youremail
       - GIT_NAME=yourname
-      - STARTUP_COMMANDS=npm install --production && (node index.js NODE_ENV=production --name 'appname' &) # install deps and start node app
-      - INSTALL_DEPS_COMMAND=npm install --production # after pull and install deps
-      - AFTER_PACKAGE_COMMANDS=set +e; ps ax |grep "appname" | awk '{print $1}' |xargs kill -9 ; node index.js NODE_ENV=production --name 'appname' & # kill node app and start node app
+      - INSTALL_DEPS_COMMAND=npm install --production # if after pull then  install deps
       - NOTIFY_ACTION_LABEL=已启动|更新拉取中..|最新更新已拉取|已完成启动
       - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
       - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two
@@ -304,11 +302,99 @@ Node App Deploy.
       - 9000:9000 # hook url
       - 168:168 # node app port, Configured according to the actual listening port of the node app
     volumes:
-      - ./code:/app/code
+      - ./start_app.sh:/custom_scripts/after_package/run_app.sh
       - ./ssh:/root/.ssh
+      - ./code:/app/code
+```
+
+start_app.sh
+
+```bash
+#!/bin/bash
+
+cd /app/code
+
+NODE_ENPOINT_SCRIPT="index.js"  # your node enterpont script
+
+echo "stop app thread."
+ps ax |grep $NODE_ENPOINT_SCRIPT | awk '{print $1}' |xargs kill -9 ;
+
+sleep 5
+
+echo "start app .."
+node $NODE_ENPOINT_SCRIPT NODE_ENV=production &  # your node run command
+
 ```
 
 WebHook URL: [http://hostname:9000/hooks/git-webhook?token=6fcc11ace14c6](#)
+
+NODE App URL: [http://hostname:168](#)
+
+---
+
+Java SpringBoot App Deploy.
+
+```Docker
+  springboot:
+    image: funnyzak/git-webhook-deploy
+    privileged: true
+    container_name: springbootapp
+    working_dir: /app/code
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1g'
+    tty: true
+    environment:
+      - spring.config.location=/app/target/application.yaml # your application yaml
+      - spring.profiles.active=prod
+      - TZ=Asia/Shanghai
+      - LANG=C.UTF-8
+      - USE_HOOK=1
+      - HOOK_TOKEN=1234567890
+      - APP_NAME=MySpringBootApp
+      - GIT_REPO=git@github.com:youanme/reponame.git
+      - GIT_BRANCH=master
+      - GIT_EMAIL=youremail
+      - GIT_NAME=yourname
+      - BUILD_COMMAND=mvn -B clean package -Dmaven.test.skip=true -Dautoconfig.skip  # jar package command.
+      - OUTPUT_DIRECTORY=web_modules/target/execute_jar_name.jar # setting your package jar file path
+      - NOTIFY_ACTION_LABEL=已启动|更新拉取中..|最新更新已拉取|已完成启动
+      - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
+      - DINGTALK_TOKEN_LIST=dingtoken_one|dingtoken_two
+      - JISHIDA_TOKEN_LIST=jishida_token
+    restart: on-failure
+    ports:
+      - 9000:9000 # hook url
+      - 168:168 # app port, Configured according to the actual listening port of the app
+    volumes:
+      - ./ssh/root/.ssh
+      - ./start_app.sh:/custom_scripts/after_package/start.sh
+      - ./code:/app/code
+      - ./target:/app/target
+```
+
+start_app.sh
+
+```bash
+#!/bin/bash
+
+cd /app/target
+
+JAR_PACKAGE_NAME = "execute_jar_name.jar"
+
+echo "kill app thread."
+ps ax |grep $JAR_PACKAGE_NAME | awk '{print $1}' |xargs kill -9 ;
+
+sleep 5
+
+echo "run java -jar /app/target/$JAR_PACKAGE_NAME"
+nohup java -jar /app/target/$JAR_PACKAGE_NAME &
+
+```
+
+
+WebHook URL: [http://hostname:9000/hooks/git-webhook?token=1234567890](#)
 
 NODE App URL: [http://hostname:168](#)
 

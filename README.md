@@ -316,10 +316,16 @@ cd /app/code
 
 NODE_ENPOINT_SCRIPT="index.js"  # your node enterpont script
 
-echo "stop app thread."
-ps ax |grep $NODE_ENPOINT_SCRIPT | awk '{print $1}' |xargs kill -9 ;
+tpid=`ps -ef|grep $NODE_ENPOINT_SCRIPT|grep -v grep|grep -v kill|awk '{print $2}'`
+if [ ${tpid} ]; then
+    echo 'Stop App Process...'
+    kill -15 $tpid
+fi
 
 sleep 5
+
+echo "kill app thread."
+ps ax |grep $NODE_ENPOINT_SCRIPT | awk '{print $1}' |xargs kill -9 ;
 
 echo "start app .."
 node $NODE_ENPOINT_SCRIPT NODE_ENV=production &  # your node run command
@@ -383,10 +389,16 @@ cd /app/target
 
 JAR_PACKAGE_NAME = "execute_jar_name.jar"
 
-echo "kill app thread."
-ps ax |grep $JAR_PACKAGE_NAME | awk '{print $1}' |xargs kill -9 ;
+tpid=`ps -ef|grep $JAR_PACKAGE_NAME|grep -v grep|grep -v kill|awk '{print $2}'`
+if [ ${tpid} ]; then
+    echo 'Stop App Process...'
+    kill -15 $tpid
+fi
 
 sleep 5
+
+echo "kill app thread."
+ps ax |grep $JAR_PACKAGE_NAME | awk '{print $1}' |xargs kill -9 ;
 
 echo "run java -jar /app/target/$JAR_PACKAGE_NAME"
 nohup java -jar /app/target/$JAR_PACKAGE_NAME &

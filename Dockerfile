@@ -22,14 +22,8 @@ RUN apk update && apk upgrade && \
 # https://github.com/gliderlabs/docker-alpine/issues/185
 RUN mkdir -p /run/nginx
 
-# Copy after package files run script
-COPY scripts/run_scripts_after_package.sh /usr/bin/run_scripts_after_package.sh
-
-# add permission for after package files run script
-RUN chmod +x /usr/bin/run_scripts_after_package.sh
 
 # Copy Custom Scripts
-COPY custom_scripts/utils.sh /custom_scripts/potato/utils-git-webhook-node.sh
 COPY custom_scripts/on_startup/run.sh /custom_scripts/on_startup/3.sh
 COPY custom_scripts/before_pull/run.sh /custom_scripts/before_pull/3.sh
 COPY custom_scripts/after_pull/run.sh /custom_scripts/after_pull/3.sh

@@ -1,10 +1,5 @@
 #!/bin/bash
 
-source /custom_scripts/potato/utils-git-webhook-node.sh
-
-# notify send
-notify_all "AfterPull"
-
 # install deps
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
     echo "run installing deps command: $INSTALL_DEPS_COMMAND"
@@ -35,25 +30,3 @@ if [ -n "$OUTPUT_DIRECTORY" ]; then
 else
     echo "no OUTPUT_DIRECTORY set. skiped."
 fi
-
-
-# calc package elasped time
-elasped_package_time "end"
-# record current git commit id
-echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
-
-# after package command
-if [ -n "$AFTER_PACKAGE_COMMANDS" ]; then
-    echo "after package command do: ${AFTER_PACKAGE_COMMANDS}" 
-    $AFTER_PACKAGE_COMMANDS || (echo "After Package Command failed. Aborting!"; notify_error; exit 1)
-else
-    echo "no after package command. skiped."
-fi
-
-
-echo "after package shell do..." 
-source /usr/bin/run_scripts_after_package.sh
-
-
-# after package notify
-notify_all "AfterPackage"

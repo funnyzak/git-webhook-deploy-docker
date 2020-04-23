@@ -42,11 +42,6 @@ elasped_package_time "end"
 # record current git commit id
 echo $(parse_git_hash) > /tmp/CURRENT_GIT_COMMIT_ID
 
-
-# after package notify
-notify_all "AfterPackage"
-
-
 # after package command
 if [ -n "$AFTER_PACKAGE_COMMANDS" ]; then
     echo "after package command do: ${AFTER_PACKAGE_COMMANDS}" 
@@ -58,3 +53,7 @@ fi
 
 echo "after package shell do..." 
 source /usr/bin/run_scripts_after_package.sh
+
+
+# after package notify
+notify_all "AfterPackage"

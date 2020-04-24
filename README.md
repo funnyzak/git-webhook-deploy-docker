@@ -405,7 +405,6 @@ nohup java -jar /app/target/$JAR_PACKAGE_NAME &
 
 ```
 
-
 WebHook URL: [http://hostname:9000/hooks/git-webhook?token=1234567890](#)
 
 NODE App URL: [http://hostname:168](#)

@@ -341,7 +341,7 @@ cat /dev/null > nohup.out
 sleep 2
 
 echo "start app .."
-node $NODE_ENPOINT_SCRIPT NODE_ENV=production &  # your node run command
+nohup node $NODE_ENPOINT_SCRIPT NODE_ENV=production &  # your node run command
 
 ```
 

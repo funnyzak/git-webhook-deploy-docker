@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /app/scripts/utils.sh;
+
 # install deps
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
     echo "run installing deps command: $INSTALL_DEPS_COMMAND"

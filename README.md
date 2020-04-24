@@ -327,6 +327,11 @@ sleep 5
 echo "kill app thread."
 ps ax |grep $NODE_ENPOINT_SCRIPT | awk '{print $1}' |xargs kill -9 ;
 
+echo "clear nohup log."
+cat /dev/null > nohup.out
+
+sleep 2
+
 echo "start app .."
 node $NODE_ENPOINT_SCRIPT NODE_ENV=production &  # your node run command
 
@@ -399,6 +404,11 @@ sleep 5
 
 echo "kill app thread."
 ps ax |grep $JAR_PACKAGE_NAME | awk '{print $1}' |xargs kill -9 ;
+
+echo "clear nohup log."
+cat /dev/null > nohup.out
+
+sleep 2
 
 echo "run java -jar /app/target/$JAR_PACKAGE_NAME"
 nohup java -jar /app/target/$JAR_PACKAGE_NAME &

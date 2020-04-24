@@ -145,6 +145,8 @@ WebHook URL: [http://hostname/hooks/git-webhook?token=hello](#)
  VuePress YAML.
 
 ```Docker
+version: '3'
+services:
   vuepressapp:
     image: funnyzak/git-webhook-deploy
     privileged: true
@@ -190,6 +192,8 @@ Web URL: [http://hostname](#)
  Hexo YAML.
 
 ```Docker
+version: '3'
+services:
   hexoapp:
     image: funnyzak/git-webhook-deploy
     privileged: true
@@ -229,6 +233,8 @@ Web URL: [http://hostname](#)
 Static Web YAML.
 
 ```Docker
+version: '3'
+services:
   staticapp:
     image: funnyzak/git-webhook-deploy
     privileged: true
@@ -271,6 +277,8 @@ Web URL: [http://hostname](#)
 Node App Deploy.
 
 ```Docker
+version: '3'
+services:
   nodeapp:
     image: funnyzak/git-webhook-deploy
     privileged: true

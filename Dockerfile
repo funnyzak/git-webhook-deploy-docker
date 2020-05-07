@@ -13,16 +13,6 @@ LABEL org.label-schema.vendor="potato<silenceace@gmail.com>" \
     org.label-schema.vcs-ref="${VCS_REF}" \
     org.label-schema.vcs-url="https://github.com/funnyzak/git-webhook-deploy-docker" 
 
-# Install nginx
-RUN apk update && apk upgrade && \
-    apk add --no-cache nginx && \
-    rm  -rf /tmp/* /var/cache/apk/*
-
-# fixed nginx: [emerg] open() "/run/nginx/nginx.pid" 
-# https://github.com/gliderlabs/docker-alpine/issues/185
-RUN mkdir -p /run/nginx
-
-
 # Copy Custom Scripts
 COPY custom_scripts/on_startup/run.sh /custom_scripts/on_startup/3.sh
 COPY custom_scripts/before_pull/run.sh /custom_scripts/before_pull/3.sh

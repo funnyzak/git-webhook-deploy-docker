@@ -3,5 +3,6 @@
 source /app/scripts/utils.sh;
 
 # run nginx
-echo 'starting nginx'
+echo -e 'starting nginx'
+
 nginx

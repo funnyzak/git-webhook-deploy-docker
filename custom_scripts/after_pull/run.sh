@@ -26,9 +26,9 @@ set +e
 
 # copy output files  
 if [ -n "$OUTPUT_DIRECTORY" ]; then
-    echo "moving output folder: /app/code/$OUTPUT_DIRECTORY to target folder: /app/target/..."
+    echo -e "moving output folder: /app/code/$OUTPUT_DIRECTORY to target folder: /app/target/..."
     eval "rsync -q -r --delete $OUTPUT_DIRECTORY /app/target/"
-    echo "moving to target dir done."
+    echo -e "moving to target dir done."
 else
-    echo "no OUTPUT_DIRECTORY set. skiped."
+    echo -e "no OUTPUT_DIRECTORY set. skiped."
 fi

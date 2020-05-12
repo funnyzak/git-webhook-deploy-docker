@@ -5,7 +5,7 @@ Pull code is triggered via WebHook, then build the code. And send notifications.
 [![Docker Stars](https://img.shields.io/docker/stars/funnyzak/git-webhook-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-deploy/)
 [![Docker Pulls](https://img.shields.io/docker/pulls/funnyzak/git-webhook-deploy.svg?style=flat-square)](https://hub.docker.com/r/funnyzak/git-webhook-deploy/)
 
-This image is based on **[funnyzak/git-webhook](https://github.com/funnyzak/git-webhook-docker.git)** image, which is a 432 image.
+This image is based on **[funnyzak/git-webhook](https://github.com/funnyzak/git-webhook-docker.git)** image, which is a 439 image.
 
 Download size of this image is:
 
@@ -46,6 +46,7 @@ The following flags are a list of all the currently supported options that can b
 * **NOTIFY_ACTION_LABEL**: Optional. notify action name define. default : `StartUp|BeforePull|AfterPull|AfterPackage`
 * **NOTIFY_ACTION_LIST**: Optional. notify action list. included events will be notified. default : `BeforePull|AfterPackage`
 * **NOTIFY_URL_LIST** : Optional. Notify link array , each separated by **|**
+* **TELEGRAM_BOT_TOKEN**: Optional. telegram Bot Token-chatid setting. eg: **token###chatid|token2###chatid2**. each separated by **|** [Official Site](https://core.telegram.org/api).
 * **IFTTT_HOOK_URL_LIST** : Optional. ifttt webhook url array , each separated by **|** [Official Site](https://ifttt.com/maker_webhooks).
 * **DINGTALK_TOKEN_LIST**: Optional. DingTalk Bot TokenList, each separated by **|** [Official Site](http://www.dingtalk.com).
 * **JISHIDA_TOKEN_LIST**: Optional. JiShiDa TokenList, each separated by **|**. [Official Site](http://push.ijingniu.cn/admin/index/).
@@ -66,6 +67,18 @@ The following flags are a list of all the currently supported options that can b
 ### ssh-keygen
 
 `ssh-keygen -t rsa -b 4096 -C "youremail@gmail.com" -N "" -f ./id_rsa`
+
+---
+
+## SendMessage
+
+You can use notifications by call "/app/scripts/utils.sh" in the execution script.
+
+```bash
+source /app/scripts/utils.sh;
+
+notify_all "hello world"
+```
 
 ---
 
@@ -124,6 +137,7 @@ services:
       - NOTIFY_ACTION_LABEL=已启动|准备拉取代码|代码已拉取|打包部署完成
       - NOTIFY_ACTION_LIST=StartUp|BeforePull|AfterPull|AfterPackage
       - NOTIFY_URL_LIST=https://request.worktile.com/asdfsfwe
+      - TELEGRAM_BOT_TOKEN=123456789:SDFW33-CbovPM456PUDTLy1uYmN04I###9865587
       - IFTTT_HOOK_URL_LIST=https://maker.ifttt.com/trigger/event_name/with/keyhelloworld
       - DINGTALK_TOKEN_LIST=sldfj2hr923rsf2938u4sdfsf|lsdf203sjdf
       - JISHIDA_TOKEN_LIST=fklsjfklj23094lfjsd

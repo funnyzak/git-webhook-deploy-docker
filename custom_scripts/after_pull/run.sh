@@ -5,7 +5,7 @@ source /app/scripts/utils.sh;
 # install deps
 if [ -n "$INSTALL_DEPS_COMMAND" ]; then
     echo "run installing deps command: $INSTALL_DEPS_COMMAND"
-    $INSTALL_DEPS_COMMAND
+    (eval "$INSTALL_DEPS_COMMAND") || (echo "installing deps failed. Aborting;"; notify_error ; exit 1)
 else
     echo "no installing deps command. skiped."
 fi
@@ -16,7 +16,7 @@ set -e
 # build code
 if [ -n "$BUILD_COMMAND" ]; then
     echo "run build command: $BUILD_COMMAND"
-    $BUILD_COMMAND || (echo "Build failed. Aborting;"; notify_error ; exit 1)
+    (eval "$BUILD_COMMAND") || (echo "Build failed. Aborting;"; notify_error ; exit 1)
 else
     echo "no build command. skiped."
 fi

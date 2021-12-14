@@ -1,4 +1,4 @@
-FROM funnyzak/git-webhook
+FROM funnyzak/git-webhook:v2
 
 ARG BUILD_DATE
 ARG VCS_REF
